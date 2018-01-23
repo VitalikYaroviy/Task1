@@ -1,0 +1,32 @@
+body{
+    text-align: center;
+}
+
+.main {
+    margin: 50px auto;
+    border: solid 2px black;
+}
+img {
+    /*width: 512px;*/
+}
+
+.childDiv {
+    padding: 5px;
+    position: absolute;
+}
+
+.flex {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    background-color: gray;
+    opacity: 0.7;
+    border-radius: 5px;
+    /*margin: 0 10px;*/
+}
+.close {
+    position: absolute;
+    border: solid 2px black;
+    border-radius: 5px;
+    /*margin: 5px 50px;*/
+}
