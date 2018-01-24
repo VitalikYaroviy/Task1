@@ -3,30 +3,30 @@ body{
 }
 
 .main {
+    position: relative;
     margin: 50px auto;
     border: solid 2px black;
 }
 img {
-    /*width: 512px;*/
+    user-select: none;
+    border: solid 2px black;
 }
 
-.childDiv {
-    padding: 5px;
+
+.container {
     position: absolute;
-}
-
-.flex {
-    position: relative;
-    display: flex;
-    flex-direction: row;
+    display: inline-flex;
     background-color: gray;
     opacity: 0.7;
     border-radius: 5px;
-    /*margin: 0 10px;*/
 }
+
+.childDiv {
+    padding: 3px;
+}
+
 .close {
-    position: absolute;
     border: solid 2px black;
     border-radius: 5px;
-    /*margin: 5px 50px;*/
+    padding: 3px;
 }
