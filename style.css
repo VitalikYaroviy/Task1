@@ -1,5 +1,6 @@
 body{
     text-align: center;
+
 }
 
 .main {
@@ -19,14 +20,20 @@ img {
     background-color: gray;
     opacity: 0.7;
     border-radius: 5px;
+    cursor: move;
+    /*padding: 3px;*/
+    user-select: none;
 }
 
 .childDiv {
-    padding: 3px;
+    /*padding: 3px;*/
+    user-select: none;
 }
 
 .close {
     border: solid 2px black;
     border-radius: 5px;
-    padding: 3px;
+    /*padding: 3px;*/
+    cursor: pointer;
+    color: red;
 }

@@ -2,6 +2,7 @@
   <dictionary name="vitalya">
     <words>
       <w>onload</w>
+      <w>touchmove</w>
     </words>
   </dictionary>
 </component>
