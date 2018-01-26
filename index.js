@@ -8,6 +8,7 @@ main.className = 'main';
 let mainDiv = main.getBoundingClientRect();
 
 let input = document.querySelector('input');
+input.setAttribute('placeholder', 'Enter the text');
 
 
 function addDiv(e) {
@@ -27,69 +28,96 @@ function addDiv(e) {
         container.style.top = e.y - main.offsetTop + 'px';
         container.style.left = e.x - main.offsetLeft - 25 + 'px';
 
-        childDiv.addEventListener('click', close);
-
         x.addEventListener('click', removeDiv);
 
         container.appendChild(childDiv);
         container.appendChild(x);
         main.appendChild(container);
+        container.addEventListener('click', close);
         checkingCoordinates(mainDiv, container);
 
     }
 }
 
-main.addEventListener('click', addDiv);
+main.addEventListener('click', addDiv, true);
 
 function close(e) {
-        let kub = e.path[1];
-        let data = kub.getBoundingClientRect();
-        e.path[1].children[1].style.display = 'block';
-        let body = document.body;
+    // let kub = e.path[1];
+    let kub = this;
+    let data = kub.getBoundingClientRect();
+    kub.children[1].style.display = 'block';
 
-        kub.onmousedown = function () {
-            e.preventDefault();
-            moveAt(e);
+    kub.addEventListener('mousedown', function () {
 
-            function moveAt(e) {
-                if ((e.x + (data.width / 2)) < mainDiv.right)  {
-                    kub.style.left = e.pageX - mainDiv.x - kub.offsetWidth / 2 + 'px';
-                    checkingCoordinates(mainDiv, kub);
-                }
+        e.preventDefault();
+        moveAt(e);
 
-                if (e.y + 17 < mainDiv.bottom && e.y > mainDiv.top) {
-                    kub.style.top = e.pageY - 50 - kub.offsetHeight / 2 + 'px';
-                }
-
+        function moveAt(e) {
+            if ((e.x + (data.width / 2)) < mainDiv.right) {
+                kub.style.left = e.pageX - mainDiv.x - kub.offsetWidth / 2 + 'px';
                 checkingCoordinates(mainDiv, kub);
             }
 
-            document.onmousemove = function (e) {
-                moveAt(e);
-            };
+            if (e.y < mainDiv.top) {
+                kub.style.top = mainDiv.top - mainDiv.bottom + 'px';
+            }
 
-            body.onmouseup = function () {
-                document.onmousemove = null;
-                body.onmouseup = null;
-            };
+            if (e.y > mainDiv.bottom) {
+                console.log(mainDiv)
+                kub.style.top = mainDiv.bottom - mainDiv.top - 32 + 'px';
+            }
+
+            if ((e.x + (data.width / 2)) > mainDiv.right) {
+                kub.style.left = mainDiv.right - mainDiv.left - data.width - data.height + 10 + 'px';
+            }
+
+            if (e.y + 17 < mainDiv.bottom && e.y > mainDiv.top) {
+                kub.style.top = e.pageY - 50 - kub.offsetHeight / 2 + 'px';
+            }
+
+            checkingCoordinates(mainDiv, kub);
+        }
+
+        document.onmousemove = function (e) {
+            moveAt(e);
         };
 
-        kub.addEventListener('touchmove', function (e) {
+        document.onmouseup = function () {
+            document.onmousemove = null;
+            document.onmouseup = null;
+        };
+    });
 
-            e.preventDefault();
-            moveMobil(e);
-            revers(data, kub);
-            function moveMobil(e) {
-                let touch = e.targetTouches[0];
-                if (touch.pageX > mainDiv.left + 24 && touch.pageX + data.width - 17  < mainDiv.right) {
-                    kub.style.left = touch.pageX - 260 + 'px';
-                }
-                if (touch.pageY < mainDiv.bottom - 30 && touch.pageY > mainDiv.top) {
-                    kub.style.top = touch.pageY - main.offsetTop + 'px';
-                }
-                checkingCoordinates(mainDiv, kub)
+    kub.addEventListener('touchmove', function (e) {
+
+        e.preventDefault();
+        moveMobil(e);
+        revers(data, kub);
+
+        function moveMobil(e) {
+            let touch = e.targetTouches[0];
+            if (touch.pageX > mainDiv.left + 24 && touch.pageX + data.width - 17 < mainDiv.right) {
+                kub.style.left = touch.pageX - 260 + 'px';
             }
-        })
+            if (touch.pageX < mainDiv.left) {
+                kub.style.left = mainDiv.left - mainDiv.right + 'px'
+            }
+            if (touch.pageX > mainDiv.right) {
+                kub.style.left = mainDiv.right - mainDiv.left - data.width - 20 + 'px'
+            }
+            if (touch.pageY < mainDiv.bottom - 30 && touch.pageY > mainDiv.top) {
+                kub.style.top = touch.pageY - main.offsetTop + 'px';
+            }
+            if (touch.pageY > mainDiv.bottom) {
+                kub.style.top = mainDiv.bottom - mainDiv.top - 25 + 'px';
+            }
+            if (touch.pageY < mainDiv.top) {
+                kub.style.top = mainDiv.top - mainDiv.bottom + 'px'
+            }
+
+            checkingCoordinates(mainDiv, kub)
+        }
+    })
 }
 
 

@@ -1,6 +1,9 @@
 body{
     text-align: center;
+}
 
+img {
+    user-select: none;
 }
 
 .main {
@@ -8,32 +11,36 @@ body{
     margin: 50px auto;
     border: solid 2px black;
 }
-img {
-    user-select: none;
-    border: solid 2px black;
-}
-
 
 .container {
     position: absolute;
     display: inline-flex;
-    background-color: gray;
-    opacity: 0.7;
+    background-color: black;
+    opacity: 0.6;
     border-radius: 5px;
     cursor: move;
-    /*padding: 3px;*/
     user-select: none;
+    padding: 4px;
 }
 
 .childDiv {
-    /*padding: 3px;*/
     user-select: none;
+    margin: 2px;
+    color: white;
 }
 
 .close {
-    border: solid 2px black;
     border-radius: 5px;
-    /*padding: 3px;*/
     cursor: pointer;
     color: red;
+    margin: 2px;
+}
+input{
+    /*width: 100%;*/
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
 }
