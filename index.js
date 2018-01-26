@@ -1,14 +1,16 @@
-let main = document.querySelector('div');
+let mainDiv = document.querySelector('div');
 let img = document.querySelector('img');
 
-main.style.width = img.offsetWidth + 'px';
-main.style.height = img.offsetHeight + 'px';
-main.className = 'main';
+mainDiv.style.width = img.offsetWidth + 'px';
+mainDiv.style.height = img.offsetHeight + 'px';
+mainDiv.className = 'main';
 
-let mainDiv = main.getBoundingClientRect();
+let mainData = mainDiv.getBoundingClientRect();
 
 let input = document.querySelector('input');
 input.setAttribute('placeholder', 'Enter the text');
+input.setAttribute('maxlength', '20');
+
 
 
 function addDiv(e) {
@@ -16,140 +18,153 @@ function addDiv(e) {
     container.className = 'container';
     let childDiv = document.createElement('div');
     childDiv.className = 'childDiv';
-    let x = document.createElement('div');
-    x.innerText = ' X';
-    x.className = 'close';
-    x.style.display = 'none';
+    let closeDiv = document.createElement('div');
+    closeDiv.innerText = ' X';
+    closeDiv.className = 'close';
+    closeDiv.style.display = 'none';
+    checkingCoordinates(mainData, container);
 
     if (input.value !== '') {
         childDiv.innerText = input.value;
+
         input.value = '';
 
-        container.style.top = e.y - main.offsetTop + 'px';
-        container.style.left = e.x - main.offsetLeft - 25 + 'px';
+        container.style.top = e.y - mainDiv.offsetTop + 'px';
+        container.style.left = e.x - mainDiv.offsetLeft - 30 + 'px';
 
-        x.addEventListener('click', removeDiv);
+        closeDiv.addEventListener('click', removeElement);
 
         container.appendChild(childDiv);
-        container.appendChild(x);
-        main.appendChild(container);
-        container.addEventListener('click', close);
-        checkingCoordinates(mainDiv, container);
+        container.appendChild(closeDiv);
+        mainDiv.appendChild(container);
+        container.addEventListener('click', moveContainer);
+        checkingCoordinates(mainData, container);
 
     }
+
 }
 
-main.addEventListener('click', addDiv, true);
+mainDiv.addEventListener('click', addDiv);
 
-function close(e) {
-    // let kub = e.path[1];
-    let kub = this;
-    let data = kub.getBoundingClientRect();
-    kub.children[1].style.display = 'block';
+function moveContainer(e) {
+    let element = e.currentTarget;
+    let elementData = element.getBoundingClientRect();
+    element.getElementsByClassName('close')[0].style.display = 'block';
 
-    kub.addEventListener('mousedown', function () {
 
+
+    element.addEventListener('mousedown', function () {
         e.preventDefault();
-        moveAt(e);
+        moveElement(e);
 
-        function moveAt(e) {
-            if ((e.x + (data.width / 2)) < mainDiv.right) {
-                kub.style.left = e.pageX - mainDiv.x - kub.offsetWidth / 2 + 'px';
-                checkingCoordinates(mainDiv, kub);
+        function moveElement(e) {
+            if ((e.x + (elementData.width / 2)) < mainData.right) {
+                element.style.left = e.pageX - mainData.x - element.offsetWidth / 2 + 'px';
+                checkingCoordinates(mainData, element);
             }
 
-            if (e.y < mainDiv.top) {
-                kub.style.top = mainDiv.top - mainDiv.bottom + 'px';
+            if (e.y < mainData.top) {
+                element.style.top = mainData.top - mainData.bottom + 'px';
             }
 
-            if (e.y > mainDiv.bottom) {
-                console.log(mainDiv)
-                kub.style.top = mainDiv.bottom - mainDiv.top - 32 + 'px';
+            if (e.y > mainData.bottom) {
+                element.style.top = mainData.bottom - mainData.top - 32 + 'px';
             }
 
-            if ((e.x + (data.width / 2)) > mainDiv.right) {
-                kub.style.left = mainDiv.right - mainDiv.left - data.width - data.height + 10 + 'px';
+            if ((e.x + (elementData.width / 2)) > mainData.right) {
+                element.style.left = mainData.right - mainData.left - elementData.width - elementData.height + 24 + 'px';
+                checkingCoordinates(mainData, element);
             }
 
-            if (e.y + 17 < mainDiv.bottom && e.y > mainDiv.top) {
-                kub.style.top = e.pageY - 50 - kub.offsetHeight / 2 + 'px';
+            if (e.y + 17 < mainData.bottom && e.y > mainData.top) {
+                element.style.top = e.pageY - 50 - element.offsetHeight / 2 + 'px';
             }
 
-            checkingCoordinates(mainDiv, kub);
+            checkingCoordinates(mainData, element);
         }
 
         document.onmousemove = function (e) {
-            moveAt(e);
+            moveElement(e);
+            checkingCoordinates(mainData, element);
         };
 
         document.onmouseup = function () {
             document.onmousemove = null;
-            document.onmouseup = null;
         };
     });
 
-    kub.addEventListener('touchmove', function (e) {
+    element.addEventListener('touchstart', function (e) {
+        let touch = e.targetTouches[0];
+        element.style.left = touch.pageX - 250 + 'px';
+        element.style.top = touch.pageY - 30 + 'px';
+    });
 
+
+    element.addEventListener('touchmove', function (e) {
         e.preventDefault();
         moveMobil(e);
-        revers(data, kub);
 
         function moveMobil(e) {
             let touch = e.targetTouches[0];
-            if (touch.pageX > mainDiv.left + 24 && touch.pageX + data.width - 17 < mainDiv.right) {
-                kub.style.left = touch.pageX - 260 + 'px';
+            if (touch.pageX > mainData.left + 24 && touch.pageX + elementData.width - 17 < mainData.right) {
+                element.style.left = touch.pageX - 260 + 'px';
             }
-            if (touch.pageX < mainDiv.left) {
-                kub.style.left = mainDiv.left - mainDiv.right + 'px'
+            if (touch.pageX < mainData.left) {
+                element.style.left = mainData.left - mainData.right + 'px'
             }
-            if (touch.pageX > mainDiv.right) {
-                kub.style.left = mainDiv.right - mainDiv.left - data.width - 20 + 'px'
+            if (touch.pageX > mainData.right) {
+                element.style.left = mainData.right - mainData.left - elementData.width - 20 + 'px'
             }
-            if (touch.pageY < mainDiv.bottom - 30 && touch.pageY > mainDiv.top) {
-                kub.style.top = touch.pageY - main.offsetTop + 'px';
+            if (touch.pageY < mainData.bottom - 30 && touch.pageY > mainData.top) {
+                element.style.top = touch.pageY - mainDiv.offsetTop + 'px';
             }
-            if (touch.pageY > mainDiv.bottom) {
-                kub.style.top = mainDiv.bottom - mainDiv.top - 25 + 'px';
+            if (touch.pageY > mainData.bottom) {
+                element.style.top = mainData.bottom - mainData.top - 25 + 'px';
             }
-            if (touch.pageY < mainDiv.top) {
-                kub.style.top = mainDiv.top - mainDiv.bottom + 'px'
+            if (touch.pageY < mainData.top) {
+                element.style.top = mainData.top - mainData.bottom + 'px'
             }
 
-            checkingCoordinates(mainDiv, kub)
+            if(elementData.right >= (mainData.right - 30)){
+                element.style.flexDirection = 'row-reverse';
+            }
+            checkingCoordinates(mainData, element)
         }
     })
 }
 
-
-function removeDiv(e) {
-    e.path[1].remove();
+function removeElement(e) {
+    e.currentTarget.parentNode.remove();
 }
 
-function checkingCoordinates(mainDiv, kub) {
-    let data = kub.getBoundingClientRect();
+function checkingCoordinates(mainData, element) {
+    let elementData = element.getBoundingClientRect();
 
-    if (mainDiv.top > data.top) {
-        kub.style.top = parseFloat(kub.style.top) - (data.top - mainDiv.top) + 'px';
+    if (mainData.top > elementData.top) {
+        element.style.top = parseFloat(element.style.top) - (elementData.top - mainData.top) + 'px';
     }
 
-    if (mainDiv.bottom < data.bottom) {
-        kub.style.bottom = parseFloat(kub.style.bottom) - (data.bottom - mainDiv.bottom) + 'px';
+    if (mainData.bottom < elementData.bottom) {
+        element.style.bottom = parseFloat(element.style.bottom) - (elementData.bottom - mainData.bottom) + 'px';
     }
 
-    if (mainDiv.right < data.right) {
-        kub.style.right = parseFloat(kub.style.right) - (data.right - mainDiv.right) + 'px';
+    if (mainData.right < elementData.right) {
+        element.style.right = parseFloat(element.style.right) - (elementData.right - mainData.right) + 'px';
     }
 
-    if (mainDiv.left > data.left) {
-        kub.style.left = parseFloat(kub.style.left) - (data.left - mainDiv.left) + 'px'
+    if (mainData.left > elementData.left) {
+        element.style.left = parseFloat(element.style.left) - (elementData.left - mainData.left) + 'px'
     }
 
-    revers(data, kub)
+    revers(elementData, element)
 }
 
-function revers(data, kub) {
-
-    if (data.right >= (mainDiv.right - 30)) {
-        kub.style.flexDirection = 'row-reverse'
+function revers(elementData, element) {
+    if (elementData.right >= (mainData.right - 30)) {
+        element.style.flexDirection = 'row-reverse';
+        elementData = element.offsetLeft + 'px'
+    }
+    if (elementData.right < mainData.right) {
+        element.style.flexDirection = 'row'
     }
 }
