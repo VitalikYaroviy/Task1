@@ -12,8 +12,7 @@ input.setAttribute('placeholder', 'Enter the text');
 input.setAttribute('maxlength', '20');
 
 
-
-function addDiv(e) {
+const addDiv = (e) => {
     let container = document.createElement('div');
     container.className = 'container';
     let childDiv = document.createElement('div');
@@ -41,16 +40,15 @@ function addDiv(e) {
         checkingCoordinates(mainData, container);
 
     }
-
-}
+};
 
 mainDiv.addEventListener('click', addDiv);
 
-function moveContainer(e) {
+
+const moveContainer = (e) => {
     let element = e.currentTarget;
     let elementData = element.getBoundingClientRect();
     element.getElementsByClassName('close')[0].style.display = 'block';
-
 
 
     element.addEventListener('mousedown', function () {
@@ -125,19 +123,19 @@ function moveContainer(e) {
                 element.style.top = mainData.top - mainData.bottom + 'px'
             }
 
-            if(elementData.right >= (mainData.right - 30)){
+            if (elementData.right >= (mainData.right - 30)) {
                 element.style.flexDirection = 'row-reverse';
             }
             checkingCoordinates(mainData, element)
         }
     })
-}
+};
 
-function removeElement(e) {
+const removeElement = (e) => {
     e.currentTarget.parentNode.remove();
-}
+};
 
-function checkingCoordinates(mainData, element) {
+const checkingCoordinates = (mainData, element) => {
     let elementData = element.getBoundingClientRect();
 
     if (mainData.top > elementData.top) {
@@ -157,9 +155,9 @@ function checkingCoordinates(mainData, element) {
     }
 
     revers(elementData, element)
-}
+};
 
-function revers(elementData, element) {
+const revers = (elementData, element) => {
     if (elementData.right >= (mainData.right - 30)) {
         element.style.flexDirection = 'row-reverse';
         elementData = element.offsetLeft + 'px'
@@ -167,4 +165,4 @@ function revers(elementData, element) {
     if (elementData.right < mainData.right) {
         element.style.flexDirection = 'row'
     }
-}
+};
