@@ -1,0 +1,22 @@
+{
+  "name": "task1",
+  "version": "1.0.0",
+  "description": "vitalikyaroviy.github.io",
+  "main": "index.js",
+  "scripts": {
+    "test": "standard"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VitalikYaroviy/Task1.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VitalikYaroviy/Task1/issues"
+  },
+  "homepage": "https://github.com/VitalikYaroviy/Task1#readme",
+  "devDependencies": {
+    "standard": "^10.0.3"
+  }
+}
